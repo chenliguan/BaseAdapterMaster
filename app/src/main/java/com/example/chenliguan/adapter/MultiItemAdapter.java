@@ -1,6 +1,7 @@
 package com.example.chenliguan.adapter;
 
 import android.content.Context;
+import android.view.View;
 
 import com.example.chenliguan.activity.R;
 import com.example.chenliguan.bean.ChatMessage;
@@ -20,14 +21,16 @@ public class MultiItemAdapter extends MultiItemCommonAdapter<ChatMessage> {
     private static final int TYPE_NUM_ITEM = 1;
     private static final int TYPE_COUNT = 2;
 
+    private View.OnClickListener onClickListener;
+
     /**
      * 普通的样式
      */
-    public MultiItemAdapter(Context context, final List<ChatMessage> datas) {
+    public MultiItemAdapter(Context context, final List<ChatMessage> datas, View.OnClickListener onClickListener) {
         super(context, datas, new MultiItemTypeSupport<ChatMessage>() {
             @Override
             public int getLayoutId(int position, ChatMessage msg) {
-                if (position == 0) {
+                if (msg.isComMeg()) {
                     return R.layout.main_chat_from_msg;
                 }
                 return R.layout.main_chat_send_msg;
@@ -36,11 +39,10 @@ public class MultiItemAdapter extends MultiItemCommonAdapter<ChatMessage> {
             @Override
             public int getItemViewType(int position, ChatMessage msg) {
 //                if (position < datas.size()) {
-                if (position == 0) {
+                if (msg.isComMeg()) {
                     return TYPE_NORMAL_ITEM;
-                } else {
-                    return TYPE_NUM_ITEM;
                 }
+                return TYPE_NUM_ITEM;
             }
 
             @Override
@@ -48,6 +50,8 @@ public class MultiItemAdapter extends MultiItemCommonAdapter<ChatMessage> {
                 return TYPE_COUNT;
             }
         });
+
+        this.onClickListener = onClickListener;
     }
 
     /**
@@ -77,21 +81,26 @@ public class MultiItemAdapter extends MultiItemCommonAdapter<ChatMessage> {
 //            }
 //        });
 //    }
-
     @Override
-    public void convert(ViewHolder holder, ChatMessage chatMessage) {
+    public void convert(final ViewHolder holder, ChatMessage chatMessage) {
 
         switch (holder.getLayoutId()) {
             case R.layout.main_chat_from_msg:
                 holder.setText(R.id.chat_from_content, chatMessage.getContent());
                 holder.setText(R.id.chat_from_name, chatMessage.getName());
                 holder.setImageResource(R.id.chat_from_icon, chatMessage.getIcon());
+                //设置监听的位置Tag
+                holder.setTag(R.id.chat_from_icon, holder.getPosition());
+                holder.setOnClickListener(R.id.chat_from_icon, onClickListener);
                 break;
 
             case R.layout.main_chat_send_msg:
                 holder.setText(R.id.chat_send_content, chatMessage.getContent());
                 holder.setText(R.id.chat_send_name, chatMessage.getName());
                 holder.setImageResource(R.id.chat_send_icon, chatMessage.getIcon());
+                //设置监听的位置Tag
+                holder.setTag(R.id.chat_send_icon, holder.getPosition());
+                holder.setOnClickListener(R.id.chat_send_icon, onClickListener);
                 break;
 
             default:

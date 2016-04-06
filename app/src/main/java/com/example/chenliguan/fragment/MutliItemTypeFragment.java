@@ -3,6 +3,7 @@ package com.example.chenliguan.fragment;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.chenliguan.activity.R;
 import com.example.chenliguan.adapter.MultiItemAdapter;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 public class MutliItemTypeFragment extends ListFragment {
 
     private ArrayList<ChatMessage> mDatas = new ArrayList<ChatMessage>();
+    private MultiItemAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -30,15 +32,29 @@ public class MutliItemTypeFragment extends ListFragment {
         super.onViewCreated(view, savedInstanceState);
 
         getListView().setDivider(null);
+        adapter = new MultiItemAdapter(getActivity(), mDatas, onClickListener);
         //设置适配器
-        setListAdapter(new MultiItemAdapter(getActivity(), mDatas));
+        setListAdapter(adapter);
     }
 
-    private void initDatas() {
+    /**
+     * 监听
+     */
+    private View.OnClickListener onClickListener = new View.OnClickListener() {
 
+        @Override
+        public void onClick(View view) {
+            int position = Integer.parseInt(view.getTag().toString());
+            Toast.makeText(getActivity(), mDatas.get(position).getContent(), Toast.LENGTH_SHORT).show();
+            mDatas.remove(position);
+            adapter.notifyDataSetChanged();
+        }
+    };
+
+    private void initDatas() {
         ChatMessage msg = null;
         msg = new ChatMessage(R.drawable.xiaohei, "xiaohei", "where are you ",
-                null, false);
+                null, true);
         mDatas.add(msg);
         msg = new ChatMessage(R.drawable.renma, "renma", "where are you ",
                 null, true);
@@ -47,23 +63,7 @@ public class MutliItemTypeFragment extends ListFragment {
                 null, false);
         mDatas.add(msg);
         msg = new ChatMessage(R.drawable.renma, "renma", "where are you ",
-                null, true);
-        mDatas.add(msg);
-        msg = new ChatMessage(R.drawable.xiaohei, "xiaohei", "where are you ",
                 null, false);
-        mDatas.add(msg);
-
-        msg = new ChatMessage(R.drawable.xiaohei, "xiaohei", "where are you ",
-                null, false);
-        mDatas.add(msg);
-        msg = new ChatMessage(R.drawable.renma, "renma", "where are you ",
-                null, true);
-        mDatas.add(msg);
-        msg = new ChatMessage(R.drawable.xiaohei, "xiaohei", "where are you ",
-                null, false);
-        mDatas.add(msg);
-        msg = new ChatMessage(R.drawable.renma, "renma", "where are you ",
-                null, true);
         mDatas.add(msg);
         msg = new ChatMessage(R.drawable.xiaohei, "xiaohei", "where are you ",
                 null, false);
@@ -72,28 +72,13 @@ public class MutliItemTypeFragment extends ListFragment {
                 null, false);
         mDatas.add(msg);
         msg = new ChatMessage(R.drawable.renma, "renma", "where are you ",
-                null, true);
-        mDatas.add(msg);
-        msg = new ChatMessage(R.drawable.xiaohei, "xiaohei", "where are you ",
-                null, false);
-        mDatas.add(msg);
-        msg = new ChatMessage(R.drawable.renma, "renma", "where are you ",
-                null, true);
-        mDatas.add(msg);
-        msg = new ChatMessage(R.drawable.xiaohei, "xiaohei", "where are you ",
                 null, false);
         mDatas.add(msg);
         msg = new ChatMessage(R.drawable.xiaohei, "xiaohei", "where are you ",
                 null, false);
         mDatas.add(msg);
         msg = new ChatMessage(R.drawable.renma, "renma", "where are you ",
-                null, true);
-        mDatas.add(msg);
-        msg = new ChatMessage(R.drawable.xiaohei, "xiaohei", "where are you ",
                 null, false);
-        mDatas.add(msg);
-        msg = new ChatMessage(R.drawable.renma, "renma", "where are you ",
-                null, true);
         mDatas.add(msg);
         msg = new ChatMessage(R.drawable.xiaohei, "xiaohei", "where are you ",
                 null, false);
@@ -102,15 +87,12 @@ public class MutliItemTypeFragment extends ListFragment {
                 null, false);
         mDatas.add(msg);
         msg = new ChatMessage(R.drawable.renma, "renma", "where are you ",
-                null, true);
+                null, false);
         mDatas.add(msg);
         msg = new ChatMessage(R.drawable.xiaohei, "xiaohei", "where are you ",
                 null, false);
         mDatas.add(msg);
         msg = new ChatMessage(R.drawable.renma, "renma", "where are you ",
-                null, true);
-        mDatas.add(msg);
-        msg = new ChatMessage(R.drawable.xiaohei, "xiaohei", "where are you ",
                 null, false);
         mDatas.add(msg);
     }

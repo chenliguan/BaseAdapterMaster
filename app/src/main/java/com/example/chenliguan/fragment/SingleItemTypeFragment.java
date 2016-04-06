@@ -18,6 +18,7 @@ import java.util.List;
 public class SingleItemTypeFragment extends ListFragment {
 
     private List<Bean> mDatas;
+    private SingleItemAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,8 +30,9 @@ public class SingleItemTypeFragment extends ListFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        adapter = new SingleItemAdapter(getActivity(), mDatas, onClickListener);
         //设置适配器
-        setListAdapter(new SingleItemAdapter(getActivity(), mDatas, onClickListener));
+        setListAdapter(adapter);
     }
 
     /**
@@ -42,6 +44,9 @@ public class SingleItemTypeFragment extends ListFragment {
         public void onClick(View view) {
             int position = Integer.parseInt(view.getTag().toString());
             Toast.makeText(getActivity(), "title:" + mDatas.get(position).getTitle(), Toast.LENGTH_SHORT).show();
+
+            mDatas.remove(position);
+            adapter.notifyDataSetChanged();
         }
     };
 

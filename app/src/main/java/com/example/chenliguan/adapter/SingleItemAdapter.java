@@ -34,7 +34,6 @@ public class SingleItemAdapter extends CommonAdapter<Bean> {
         //设置监听的位置Tag
         holder.setTag(R.id.id_title, holder.getPosition());
         holder.setOnClickListener(R.id.id_title, onClickListener);
-
         //处理ListView复用内容错乱问题
         final CheckBox cb = holder.getView(R.id.id_check);
         cb.setChecked(bean.isChecked());

@@ -8,7 +8,6 @@ import java.util.List;
 
 /**
  * Created by chenliguan on 16/4/5.
- *
  */
 public abstract class MultiItemCommonAdapter<T> extends CommonAdapter<T> {
 
@@ -30,8 +29,7 @@ public abstract class MultiItemCommonAdapter<T> extends CommonAdapter<T> {
     @Override
     public int getItemViewType(int position) {
         if (mMultiItemTypeSupport != null) {
-            return mMultiItemTypeSupport.getItemViewType(position,
-                    mDatas.get(position));
+            return mMultiItemTypeSupport.getItemViewType(position, mDatas.get(position));
         }
         return super.getItemViewType(position);
 
@@ -42,10 +40,8 @@ public abstract class MultiItemCommonAdapter<T> extends CommonAdapter<T> {
         if (mMultiItemTypeSupport == null) {
             return super.getView(position, convertView, parent);
         }
-        int layoutId = mMultiItemTypeSupport.getLayoutId(position,
-                getItem(position));
-        ViewHolder viewHolder = ViewHolder.get(mContext, convertView, parent,
-                layoutId, position);
+        int layoutId = mMultiItemTypeSupport.getLayoutId(position, getItem(position));
+        ViewHolder viewHolder = ViewHolder.get(mContext, convertView, parent, layoutId, position);
         convert(viewHolder, getItem(position));
         return viewHolder.getConvertView();
     }
